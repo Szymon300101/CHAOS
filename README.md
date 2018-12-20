@@ -23,3 +23,8 @@ ale przede wszystkim dla siebie na przyszłość.
 Menu po naciśnięciu 'SET'  
 ![](GFX/interface01.PNG)  
   
+Podstawowy trójkt Sierpińskiego (3 kąty, cz. na b., 100000 punktów):
+![](GFX/interface02.PNG)  
+  
+Kolorowy pięciokąt (5 kątów, kol. na b., 750000 punktów):
+![](GFX/interface03.PNG)  
