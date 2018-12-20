@@ -9,16 +9,19 @@ Fraktalna figura jest geneowana metodą "gry w chaos". Oto algorytm:
 2. Losowany jest dowolny punkt
 3. Losowany jest jeden z wieszchołków
 4. Odległość między tym wieszchołkiem a punktem  
-   jest zmniejsszana o połowę. (punkt się "przyciąga')
-5. Punkt 3.  
+   jest zmniejszana o połowę. (punkt się "przyciąga')
+5. ^ 3.  
   
 "Fractal_gen_setup.exe" to bardzo prosty  
 instalator do aplikacji graficznej.  
   
 "Fractal_gen_files.zip" to wszystkie pliki projektu,  
-do ich uruchomienia wymagane jest środowisko z nakładką WxWidgets.  
+do ich skompilowania wymagane jest środowisko z nakładką WxWidgets.  
 Zostawiam je tutaj jakby ktoś był bardzo zainteresowany,  
 ale przede wszystkim dla siebie na przyszłość.  
+  
+W programie:  SPACJA - czyszczenie ekranu  
+              Ctrl+s - zapisywanie ekranu  
   
 Menu po naciśnięciu 'SET'  
 ![](GFX/interface01.PNG)  
