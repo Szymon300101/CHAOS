@@ -4,6 +4,9 @@ Application extending Sierpiński's triangle to more corners figures (PL)
 Ten program najpierw powstał w scratch'u, ale postanowiłem przenieść go do C++,  
 z nakladką graficzną WxWidgets.  
   
+Mój projekt w scratch'u:
+https://scratch.mit.edu/projects/252639902/  
+  
 Fraktalna figura jest geneowana metodą "gry w chaos". Oto algorytm:  
 1. Wyznaczane są wieszchołki figury.
 2. Losowany jest dowolny punkt
