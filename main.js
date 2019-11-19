@@ -93,9 +93,9 @@ function help()
 {
   textFont("Courier New",13);
   //fill(120,255,255);
-  text('SPACE -> start/stop', 10, 30);
-  text('-/+   -> less/more corners', 10, 50);
-  text('Shift -> change color mode', 10, 70);
+  text('SPACE   -> start/stop', 10, 30);
+  text('DOWN/UP -> less/more corners', 10, 50);
+  text('Shift   -> change color mode', 10, 70);
 }
 
 
@@ -104,7 +104,7 @@ function help()
 function keyPressed()
 {
   console.log(keyCode);
-  if(keyCode==32) 
+  if(keyCode===32) 
     {
       runtime=!runtime;
       points=0;
@@ -121,7 +121,7 @@ function keyPressed()
         }
       } 
     }
-  if(keyCode==189) 
+  if(keyCode===DOWN_ARROW) 
     {
       if(cNum>3)
         {
@@ -130,7 +130,7 @@ function keyPressed()
           runtime=false;
         }
     }
-    if(keyCode==187) 
+    if(keyCode===UP_ARROW) 
     {
       if(cNum<10)
         {
@@ -139,7 +139,7 @@ function keyPressed()
           runtime=false;
         }
     }
-    if(keyCode==16) 
+    if(keyCode==SHIFT) 
     {
       if(color_mode=="color_black")
         { color_mode="white_black"; }
