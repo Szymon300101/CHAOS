@@ -48,18 +48,15 @@ function draw() {
     if(points>iter) {runtime=false;}
     }
     updatePixels();
+  }else if(points<iter){
+    make_background();
+    draw_corners();
+    help();
   }
 }
 
 function make_corners()
 {
-  if(color_mode=="white_black" || color_mode=="color_black")
-    {
-      background(0);
-    }else 
-    {
-      background(255);
-    }
   corners=new Array();
   let angle=-PI/2;
   for(let i=0;i<cNum;i++)
@@ -71,8 +68,25 @@ function make_corners()
     ellipse(corners[i].x,corners[i].y,5,5);
     angle+=2*PI/cNum;
   }
-  points=0;
-  help()
+}
+
+function draw_corners()
+{
+  for(let i=0;i<cNum;i++)
+  {
+    fill(choose_color(map(i,0,cNum,0,255)));
+    noStroke();
+    ellipse(corners[i].x,corners[i].y,5,5);
+  }
+}
+
+function make_background()
+{
+  if(color_mode=="white_black" || color_mode=="color_black")
+  { background(0);
+  }else 
+  { background(255);
+  }
 }
 
 function choose_color(hue)
@@ -104,21 +118,16 @@ function help()
 function keyPressed()
 {
   console.log(keyCode);
-  if(keyCode===32) 
+  if(keyCode===32) //SPACE
     {
-      runtime=!runtime;
-      points=0;
-      if(!runtime)
-        {make_corners();}
-      else
+      if(runtime || points>iter)
       {
-        if(color_mode=="white_black" || color_mode=="color_black")
-        {
-          background(0);
-        }else 
-        {
-          background(255);
-        }
+        runtime=false;
+        points=0;
+      }else
+      {
+        runtime=true;
+        make_background();
       } 
     }
   if(keyCode===DOWN_ARROW) 
@@ -128,6 +137,7 @@ function keyPressed()
           cNum--;
           make_corners();
           runtime=false;
+          points=0;
         }
     }
     if(keyCode===UP_ARROW) 
@@ -137,6 +147,7 @@ function keyPressed()
           cNum++;
           make_corners();
           runtime=false;
+          points=0;
         }
     }
     if(keyCode==SHIFT) 
@@ -152,5 +163,6 @@ function keyPressed()
 
       make_corners();
       runtime=false;
+      points=0;
     }
 }
