@@ -10,6 +10,8 @@ let points=0;
 let curr_p=new Point(0,0);
 let corners;
 
+let scale=1;
+let border=new Point(0,0);
 
 function Point(x,y)
 {
@@ -43,7 +45,10 @@ function draw() {
     let c=int(random(0,cNum));
     curr_p.x=corners[c].x+(curr_p.x-corners[c].x)/2;
     curr_p.y=corners[c].y+(curr_p.y-corners[c].y)/2;
-    set(curr_p.x,curr_p.y,choose_color(map(c,0,cNum,0,255)));
+    if(curr_p.x>border.x && curr_p.x<border.x+(width/scale) && curr_p.y>border.y && curr_p.y<border.y+(height/scale))
+    {
+      set((curr_p.x-border.x)*scale,(curr_p.y-border.y)*scale,choose_color(map(c,0,cNum,0,255)));
+    }
     points++;
     if(points>iter) {runtime=false;}
     }
@@ -51,6 +56,7 @@ function draw() {
   }else if(points<iter){
     make_background();
     draw_corners();
+    draw_border();
     help();
   }
 }
@@ -80,12 +86,19 @@ function draw_corners()
   }
 }
 
-function make_background()
+function draw_border()
 {
-  if(color_mode=="white_black" || color_mode=="color_black")
-  { background(0);
-  }else 
-  { background(255);
+  if(scale!=1)
+  {
+  noFill();
+  stroke(50,255,255);
+  border.x=winMouseX-(width/scale)/2;
+  border.y=winMouseY-(height/scale)/2;
+  rect(border.x,border.y,width/scale,height/scale);
+  }else
+  {
+    border.x=0;
+    border.y=0;
   }
 }
 
@@ -103,13 +116,25 @@ function choose_color(hue)
       } 
 }
 
+function make_background()
+{
+  if(color_mode=="white_black" || color_mode=="color_black")
+  { background(0);
+  }else 
+  { background(255);
+  }
+}
+
 function help()
 {
+  fill(200,255,255);
+  noStroke();
   textFont("Courier New",13);
   //fill(120,255,255);
-  text('SPACE   -> start/stop', 10, 30);
-  text('DOWN/UP -> less/more corners', 10, 50);
-  text('Shift   -> change color mode', 10, 70);
+  text('SPACE      -> start/stop', 10, 30);
+  text('DOWN/UP    -> less/more corners', 10, 50);
+  text('Shift      -> change color mode', 10, 70);
+  text('Scroll/Mouse  -> set zoom', 10, 90);
 }
 
 
@@ -165,4 +190,17 @@ function keyPressed()
       runtime=false;
       points=0;
     }
+}
+
+function mouseWheel(event) {
+  if(points>0) return 0;
+  if(scale-sign(event.delta)>=1) scale-=sign(event.delta);
+  console.log(scale);
+}
+
+function sign(a)
+{
+  if(a>0) return 1;
+  if(a<0) return -1;
+  if(a==0) return 0;
 }
