@@ -160,7 +160,6 @@ function help()
   fill(0,0,128);
   noStroke();
   textFont("Courier New",13);
-  //fill(120,255,255);
   text('SPACE         -> start/stop', 10, 30);
   text('DOWN/UP       -> change max dens. of points', 10, 50);
   text('LEFT/RIGHT    -> less/more corners', 10, 70);
