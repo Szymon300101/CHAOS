@@ -1,5 +1,6 @@
 let cNum=5;
-let iter=50000;
+let dens=0.15;
+let iter;
 let speed=100;
 let r;
 let color_mode="color_black";
@@ -12,6 +13,8 @@ let corners;
 
 let scale=1;
 let border=new Point(0,0);
+
+let show_dens=false;
 
 function Point(x,y)
 {
@@ -28,10 +31,9 @@ function setup() {
   r=height/2-20;
   noFill();
   stroke(255);
+  loadPixels();
 
   make_corners();
-
-  loadPixels();
 
   curr_p.x=random(0,width);
   curr_p.y=random(0,height);
@@ -57,6 +59,7 @@ function draw() {
     make_background();
     draw_corners();
     draw_border();
+    dens_bar();
     help();
   }
 }
@@ -102,6 +105,16 @@ function draw_border()
   }
 }
 
+function dens_bar()
+{
+  noStroke();
+  fill(136, 206,206);
+  rect(width-40,30+(0.5-dens)/0.5*(height-60)/3,10,(1-(0.5-dens)/0.5)*(height-60)/3);
+  stroke(0, 0, 156);
+  noFill();
+  rect(width-40,30,10,(height-60)/3);
+}
+
 function choose_color(hue)
 {
   if(color_mode=="color_white" || color_mode=="color_black")
@@ -123,6 +136,11 @@ function make_background()
   }else 
   { background(255);
   }
+}
+
+function poligon_area(n,R)
+{
+  return n*pow(R,2)*sin(2*PI/n)/2;
 }
 
 function help()
@@ -153,6 +171,8 @@ function keyPressed()
       {
         runtime=true;
         make_background();
+        iter=dens*poligon_area(cNum,r);
+        show_dens=false;
       } 
     }
   if(keyCode===DOWN_ARROW) 
@@ -189,6 +209,20 @@ function keyPressed()
       make_corners();
       runtime=false;
       points=0;
+    }
+    if(keyCode===LEFT_ARROW) 
+    {
+      if(points==0)
+      if(dens>0.02) dens-=0.02;
+    }
+    if(keyCode===RIGHT_ARROW) 
+    {
+      if(points==0)
+      dens=min(0.5,dens+0.02);
+    }
+    if(keyCode===68)   //d
+    {
+      show_dens=!show_dens;
     }
 }
 
