@@ -1,6 +1,6 @@
 let cNum=5;
 let dens=0.15;
-let iter;
+let iter=1;
 let speed=100;
 let r;
 let color_mode="color_black";
@@ -29,8 +29,7 @@ function setup() {
   background(0);
 
   r=height/2-20;
-  noFill();
-  stroke(255);
+  noStroke();
   loadPixels();
 
   make_corners();
@@ -55,6 +54,10 @@ function draw() {
     if(points>iter) {runtime=false;}
     }
     updatePixels();
+    if(show_dens)
+    {
+      dens_bar();
+    }
   }else if(points<iter){
     make_background();
     draw_corners();
@@ -73,7 +76,7 @@ function make_corners()
     let x=width/2+cos(angle)*r;
     let y=height/2+sin(angle)*r;
     corners.push(new Point(x,y));
-    stroke(choose_color(map(i,0,cNum,0,255)));
+    fill(choose_color(map(i,0,cNum,0,255)));
     ellipse(corners[i].x,corners[i].y,5,5);
     angle+=2*PI/cNum;
   }
@@ -107,10 +110,19 @@ function draw_border()
 
 function dens_bar()
 {
+  if(points>iter) return;
   noStroke();
-  fill(136, 206,206);
+  if(runtime)
+  {
+    let curr_dens=points/poligon_area(cNum,r);
+    fill(255, 206,206);
+    rect(width-40,30+(0.5-curr_dens)/0.5*(height-60)/3,10,(1-(0.5-curr_dens)/0.5)*(height-60)/3);
+    fill(136, 206,206,80);
+  }else{
+    fill(136, 206,206);
+  } 
   rect(width-40,30+(0.5-dens)/0.5*(height-60)/3,10,(1-(0.5-dens)/0.5)*(height-60)/3);
-  stroke(0, 0, 156);
+  stroke(0, 0, 128);
   noFill();
   rect(width-40,30,10,(height-60)/3);
 }
@@ -145,14 +157,16 @@ function poligon_area(n,R)
 
 function help()
 {
-  fill(200,255,255);
+  fill(0,0,128);
   noStroke();
   textFont("Courier New",13);
   //fill(120,255,255);
-  text('SPACE      -> start/stop', 10, 30);
-  text('DOWN/UP    -> less/more corners', 10, 50);
-  text('Shift      -> change color mode', 10, 70);
-  text('Scroll/Mouse  -> set zoom', 10, 90);
+  text('SPACE         -> start/stop', 10, 30);
+  text('DOWN/UP       -> change max dens. of points', 10, 50);
+  text('LEFT/RIGHT    -> less/more corners', 10, 70);
+  text('Shift         -> change color mode', 10, 90);
+  text('Scroll/Mouse  -> set zoom', 10, 110);
+  text('\'D\'           -> show/hide progress', 10, 130);
 }
 
 
@@ -175,7 +189,7 @@ function keyPressed()
         show_dens=false;
       } 
     }
-  if(keyCode===DOWN_ARROW) 
+  if(keyCode===LEFT_ARROW) 
     {
       if(cNum>3)
         {
@@ -185,7 +199,7 @@ function keyPressed()
           points=0;
         }
     }
-    if(keyCode===UP_ARROW) 
+    if(keyCode===RIGHT_ARROW) 
     {
       if(cNum<10)
         {
@@ -210,12 +224,12 @@ function keyPressed()
       runtime=false;
       points=0;
     }
-    if(keyCode===LEFT_ARROW) 
+    if(keyCode===DOWN_ARROW) 
     {
       if(points==0)
       if(dens>0.02) dens-=0.02;
     }
-    if(keyCode===RIGHT_ARROW) 
+    if(keyCode===UP_ARROW) 
     {
       if(points==0)
       dens=min(0.5,dens+0.02);
